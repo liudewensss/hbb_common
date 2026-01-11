@@ -62,7 +62,19 @@ lazy_static::lazy_static! {
     static ref KEY_PAIR: Mutex<Option<KeyPair>> = Default::default();
     static ref USER_DEFAULT_CONFIG: RwLock<(UserDefaultConfig, Instant)> = RwLock::new((UserDefaultConfig::load(), Instant::now()));
     pub static ref NEW_STORED_PEER_CONFIG: Mutex<HashSet<String>> = Default::default();
-    pub static ref DEFAULT_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    pub static ref DEFAULT_SETTINGS: RwLock<HashMap<String, String>> = {
+        let mut m = HashMap::<String, String>::new();
+        m.insert(
+            "api-server".to_owned(),
+            "http://yc.liudewen.com:21114".to_owned(),
+        );
+        m.insert("relay-server".to_owned(), "yc.liudewen.com".to_owned());
+        m.insert(
+            "key".to_owned(),
+            "dhIvSi0fYs3AabKAbxSaZXmapjaMhCLR8zcCGXDQHgY=".to_owned(),
+        );
+        RwLock::new(m)
+    };
     pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref DEFAULT_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref OVERWRITE_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
@@ -106,8 +118,8 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["114.66.52.77"];
-pub const RS_PUB_KEY: &str = "WX6p8pc7vMTj9xlTbhTfeQPnC8vxfTMD+WRhaaN597M=";
+pub const RENDEZVOUS_SERVERS: &[&str] = &["yc.liudewen.com"];
+pub const RS_PUB_KEY: &str = "dhIvSi0fYs3AabKAbxSaZXmapjaMhCLR8zcCGXDQHgY=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
